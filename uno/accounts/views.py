@@ -33,6 +33,98 @@ class SignUpView(APIView):
 	serializer_class = UserCreateSerializer
 
 	def post(self, request, *args, **kwargs):
+
+		"""
+		### Body:
+		```
+		{
+		    "first_name": "v",
+		    "last_name": "s",
+		    "email": "vs@yopmail.com",
+		    "password": "password",
+
+		}
+		```
+
+		#### Response (success):
+		```
+		{
+		    "code": 1001,
+		    "msg": "Account created successfully",
+		    "data": {
+		        "id": "db54e0a6-a9e3-40b6-b2d0-1a54b3583320",
+		        "first_name": "v",
+		        "last_name": "s",
+		        "email": "vs@yopmail.com",
+		        "profile": {
+		            "country": "India",
+		            "date_of_birth": "2019-02-19",
+		            "organization": "School"
+		        }
+		    }
+		}
+		```
+
+		#### Response (error):
+		```
+		{
+		    "code": 1000,
+		    "msg": "Invalid post data provided",
+		    "data": {
+		        "first_name": [
+		            "This field may not be blank."
+		        ],
+		        "password": [
+		            "This field may not be blank."
+		        ],
+		        "email": [
+		            "This field may not be blank."
+		        ],
+		        "last_name": [
+		            "This field may not be blank."
+		        ],
+		        "profile": {
+		            "date_of_birth": [
+		                "Date has wrong format. Use one of these formats instead: YYYY-MM-DD."
+		            ],
+		            "organization": [
+		                "This field may not be blank."
+		            ],
+		            "country": [
+		                "This field may not be blank."
+		            ]
+		        }
+		    }
+		}
+		```
+
+		#### Response (error):
+		```
+		{
+			"code": 1000,
+			"msg": "Invalid post data provided",
+			"data": {
+				"email": [
+					"This field must be unique."
+				]
+			}
+		}
+		```
+		#### Response (error):
+		```
+		{
+		    "code": 1000,
+		    "msg": "Invalid post data provided",
+		    "data": {
+		        "profile": {
+		            "date_of_birth": [
+		                "Date has wrong format. Use one of these formats instead: YYYY-MM-DD."
+		            ]
+		        }
+		    }
+		}
+		```
+		"""
 		data = request.data.copy()
 		serializer = self.serializer_class(data=data)
 		if serializer.is_valid():
